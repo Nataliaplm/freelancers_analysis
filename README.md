@@ -19,7 +19,6 @@ Análisis del dataset Global Freelancers, que contiene información de 1000 trab
 | `global_freelancers_raw.csv` | Dataset original sin modificaciones |
 | `global_freelancers_clean.csv` | Dataset limpio tras aplicar las transformaciones |
 | `Global_freelancers_Reto_4.R` | Script R con la limpieza, análisis y visualizaciones |
-| `PRACT2_Tipologia.pdf` | Memoria de la práctica con las respuestas a todos los apartados |
 
 ---
 
