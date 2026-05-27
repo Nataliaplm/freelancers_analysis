@@ -6,7 +6,9 @@
 #   Guillermo Alfaro Cerda  - galfaroce@uoc.edu
 # =============================================================================
 # install.packages("factoextra")
+# install.packages("car")
 library(factoextra)
+library(car)
 
 df <- read.csv("global_freelancers_raw.csv")
 head(df)
@@ -268,7 +270,6 @@ shapiro.test(df$hourly_rate[df$gender == "male"])
 shapiro.test(df$hourly_rate[df$gender == "female"])
 
 # - Paso 2: Verificar homocedasticidad (Levene) 
-library(car)
 leveneTest(hourly_rate ~ gender, data = df)
 
 # - Paso 3: Test Wilcoxon (porque es no paramétrico)
