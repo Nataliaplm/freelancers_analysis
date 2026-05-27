@@ -24,6 +24,19 @@ colSums(is.na(df))
 df$rating <- NULL
 names(df)
 
+# PRIMARY SKILL
+sum(is.na(df$primary_skill))
+par(mar = c(10, 4, 4, 2))
+barplot(sort(table(df$primary_skill), decreasing = TRUE),
+        main  = "Distribución de habilidades principales",
+        xlab  = "",
+        ylab  = "Frecuencia",
+        col   = "lightblue",
+        border = "white",
+        las   = 2,
+        cex.names = 0.8)
+par(mar = c(5, 4, 4, 2))
+
 # YEARS OF EXPERIENCE - imputar NAs con la mediana
 sum(is.na(df$years_of_experience))
 hist(df$years_of_experience, 
@@ -64,7 +77,7 @@ df$hourly_rate..USD.[is.na(df$hourly_rate..USD.)] <- mediana_rate
 df$hourly_rate..USD. <- round(df$hourly_rate..USD., 2)  #2 decimales
 names(df)[names(df) == "hourly_rate..USD."] <- "hourly_rate"
 hist(df$hourly_rate, 
-     main = "Distribución de Hourly Rate (antes de imputar)", 
+     main = "Distribución de Hourly Rate", 
      xlab = "Tarifa por hora (USD)",
      ylab = "Frecuencia",
      col = "lightblue",
@@ -117,17 +130,6 @@ df$client_satisfaction <- round(df$client_satisfaction, 0)  #entero
 sum(is.na(df$client_satisfaction))
 summary(df$client_satisfaction)
 
-# Distribución de primary_skill
-par(mar = c(10, 4, 4, 2))
-barplot(sort(table(df$primary_skill), decreasing = TRUE),
-        main  = "Distribución de habilidades principales",
-        xlab  = "",
-        ylab  = "Frecuencia",
-        col   = "lightblue",
-        border = "white",
-        las   = 2,
-        cex.names = 0.8)
-par(mar = c(5, 4, 4, 2))
 
 # -----------------------------------------------------------------------------
 # VERIFICACIÓN FINAL
@@ -261,19 +263,15 @@ print(centroides4)
 # =============================================================================
 #TEST 1 
 #Analizar la diferencia significativa de la tarifa por hora entre hombres y mujeres
-#--- Paso 1: Verificar normalidad (Shapiro-Wilk) ---
+#- Paso 1: Verificar normalidad (Shapiro-Wilk) 
 shapiro.test(df$hourly_rate[df$gender == "male"])
 shapiro.test(df$hourly_rate[df$gender == "female"])
 
-# --- Paso 2: Verificar homocedasticidad (Levene) ---
+# - Paso 2: Verificar homocedasticidad (Levene) 
 library(car)
 leveneTest(hourly_rate ~ gender, data = df)
 
-# --- Paso 3: Test según resultados anteriores ---
-# Si normalidad y homocedasticidad → t-test
-t.test(hourly_rate ~ gender, data = df, var.equal = TRUE)
-
-# Si no hay normalidad → Wilcoxon (no paramétrico)
+# - Paso 3: Test Wilcoxon (porque es no paramétrico)
 wilcox.test(hourly_rate ~ gender, data = df)
 
 # Visualización
@@ -301,18 +299,14 @@ legend("topright",
 
 #TEST 2
 #Analizar la diferencia significativa de la satisfacción entre hombres y mujeres
-# --- Paso 1: Verificar normalidad (Shapiro-Wilk) ---
+# - Paso 1: Verificar normalidad (Shapiro-Wilk)
 shapiro.test(df$client_satisfaction[df$gender == "male"])
 shapiro.test(df$client_satisfaction[df$gender == "female"])
 
-# --- Paso 2: Verificar homocedasticidad (Levene) ---
+# - Paso 2: Verificar homocedasticidad (Levene)
 leveneTest(client_satisfaction ~ gender, data = df)
 
-# --- Paso 3: Test según resultados anteriores ---
-# Si normalidad y homocedasticidad → t-test
-t.test(client_satisfaction ~ gender, data = df, var.equal = TRUE)
-
-# Si no hay normalidad → Wilcoxon (no paramétrico)
+# - Paso 3: Test Wilcoxon (porque es no paramétrico)
 wilcox.test(client_satisfaction ~ gender, data = df)
 
 # Visualización
